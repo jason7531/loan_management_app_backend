@@ -108,3 +108,16 @@ exports.login = async (req, res) => {
     res.status(500).send();
   }
 };
+
+exports.sendToken = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.json(false);
+
+    jwt.verify(token, process.env.JWT_SECRET);
+
+    res.send(true);
+  } catch (err) {
+    res.json(false);
+  }
+};
